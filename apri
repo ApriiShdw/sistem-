@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Terpadu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar { height: 100vh; background: #2c3e50; color: white; position: fixed; width: 250px; }
+        .main-content { margin-left: 250px; padding: 20px; }
+        .card-stat { border-left: 5px solid #3498db; }
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #e9ecef; }
+        #main-system { display: none; } /* Tersembunyi sebelum login */
+    </style>
+</head>
+<body>
+
+    <div id="login-page" class="login-container">
+        <div class="card shadow" style="width: 400px; border-radius: 15px;">
+            <div class="card-body p-5">
+                <h3 class="text-center mb-4">Selamat Datang</h3>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" placeholder="admin" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" placeholder="******" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">MASUK</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-system">
+        <div class="sidebar p-3">
+            <h4>Admin Panel</h4>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item mb-2"><a href="#" class="nav-link text-white active"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link text-white"><i class="fas fa-users me-2"></i> Data Pengguna</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link text-white"><i class="fas fa-cog me-2"></i> Pengaturan</a></li>
+                <li class="mt-4"><a href="#" onclick="location.reload()" class="btn btn-danger btn-sm w-100">Keluar</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h2 class="mb-4">Dashboard Utama</h2>
+            
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card card-stat shadow-sm p-3">
+                        <h6>Total Pengguna</h6>
+                        <h3>1,250</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-3" style="border-left: 5px solid #2ecc71;">
+                        <h6>Pendapatan Bulanan</h6>
+                        <h3>Rp 500rb</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-3" style="border-left: 5px solid #f1c40f;">
+                        <h6>Proyek Aktif</h6>
+                        <h3>48</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white"><strong>Form Tambah Data Baru</strong></div>
+                <div class="card-body">
+                    <form id="dataForm" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" id="inputNama" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" id="inputEmail" class="form-control" required>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-success px-4">Simpan Data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white"><strong>Tabel Data Pengguna</strong></div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td>1</td>
+                                <td>Rina Agustin</td>
+                                <td>rina@email.com</td>
+                                <td><span class="badge bg-primary">Edit</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="fas fa-check-circle text-success mb-3" style="font-size: 4rem;"></i>
+                    <h4>Data Berhasil Disimpan!</h4>
+                    <p class="text-muted">Informasi Anda telah diperbarui dalam sistem.</p>
+                    <button type="button" class="btn btn-primary px-5" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Logika Login Sederhana
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-system').style.display = 'block';
+        });
+
+        // Logika Form & Notifikasi
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Ambil input
+            const nama = document.getElementById('inputNama').value;
+            const email = document.getElementById('inputEmail').value;
+
+            // Tambah baris ke tabel
+            const table = document.getElementById('tableBody');
+            const newRow = `<tr><td>2</td><td>${nama}</td><td>${email}</td><td><span class="badge bg-primary">Edit</span></td></tr>`;
+            table.innerHTML += newRow;
+
+            // Tampilkan Modal Notifikasi
+            successModal.show();
+            this.reset();
+        });
+    </script>
+</body>
+</html>
